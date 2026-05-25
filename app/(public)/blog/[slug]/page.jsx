@@ -94,23 +94,105 @@ export default async function BlogDetail({ params }) {
       <Navbar categories={categories} />
       <ViewTracker id={blog._id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <main className="mx-auto max-w-4xl px-5 py-12">
-        <p className="text-sm font-bold uppercase tracking-wide text-accent">{blog.category?.name}</p>
-        <h1 className="mt-3 font-heading text-5xl font-bold leading-tight">{blog.title}</h1>
-        <p className="mt-5 text-stone-600">{blog.author} · {blog.readTime} min read · {new Date(blog.createdAt).toLocaleDateString()}</p>
-        {blog.featuredImage?.url && <img src={blog.featuredImage.url} alt={blog.title} className="mt-8 max-h-[520px] w-full rounded-lg object-cover" />}
-        <div className="prose-blog mt-8 max-w-none text-lg" dangerouslySetInnerHTML={{ __html: blog.content }} />
-        <div className="mt-10"><ShareButtons title={blog.title} /></div>
-        <div className="mt-10 flex justify-between border-y border-stone-200 py-5 text-sm font-semibold">
-          {prev ? <Link href={`/blog/${prev.slug}`}>Previous: {prev.title}</Link> : <span />}
-          {next ? <Link href={`/blog/${next.slug}`}>Next: {next.title}</Link> : <span />}
+      <main className="mx-auto max-w-4xl px-5 py-16">
+        {/* Header Section */}
+        <div className="mb-10">
+          <div className="inline-block mb-4">
+            <span className="inline-block rounded-full bg-accent/10 px-4 py-2 text-sm font-bold uppercase tracking-widest text-accent">
+              {blog.category?.name}
+            </span>
+          </div>
+          <style>{`
+            @keyframes gradientShift {
+              0%, 100% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+            }
+            .blog-title {
+              background: linear-gradient(135deg, #292524 0%, #ea580c 50%, #292524 100%);
+              background-size: 200% 200%;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              transition: all 0.3s ease;
+            }
+            .blog-title:hover {
+              animation: gradientShift 3s ease infinite;
+              letter-spacing: 0.05em;
+            }
+          `}</style>
+          <h1 className="blog-title font-heading text-5xl md:text-6xl font-bold leading-tight mb-6 cursor-default hover:drop-shadow-lg transition-all">
+            {blog.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-6 text-stone-600 border-b border-stone-100 pb-6">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center font-semibold text-accent">
+                {blog.author?.[0]?.toUpperCase()}
+              </span>
+              <span className="font-semibold text-stone-900">{blog.author}</span>
+            </div>
+            <span className="text-sm font-medium text-stone-500">•</span>
+            <span className="text-sm font-medium">{blog.readTime} min read</span>
+            <span className="text-sm font-medium text-stone-500">•</span>
+            <time className="text-sm font-medium text-stone-500">{new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          </div>
         </div>
-        <CommentSection blogId={blog._id} />
+
+        {/* Featured Image */}
+        {blog.featuredImage?.url && (
+          <img 
+            src={blog.featuredImage.url} 
+            alt={blog.title} 
+            className="mt-10 w-full max-h-[600px] object-cover rounded-2xl shadow-lg" 
+          />
+        )}
+
+        {/* Content */}
+        <div className="prose-blog mt-12 max-w-none text-lg leading-8 text-stone-700" dangerouslySetInnerHTML={{ __html: blog.content }} />
+
+        {/* Share Section */}
+        <div className="mt-14 py-8 border-y border-stone-200">
+          <p className="text-sm font-semibold text-stone-600 mb-4">Share this article</p>
+          <ShareButtons title={blog.title} />
+        </div>
+
+        {/* Navigation */}
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {prev ? (
+            <Link 
+              href={`/blog/${prev.slug}`}
+              className="group block p-6 rounded-xl border border-stone-200 hover:border-accent/30 hover:shadow-lg transition-all"
+            >
+              <p className="text-sm font-semibold text-accent mb-2">← Previous</p>
+              <p className="font-heading text-lg font-bold text-stone-900 group-hover:text-accent transition-colors line-clamp-2">
+                {prev.title}
+              </p>
+            </Link>
+          ) : <div />}
+          {next ? (
+            <Link 
+              href={`/blog/${next.slug}`}
+              className="group block p-6 rounded-xl border border-stone-200 hover:border-accent/30 hover:shadow-lg transition-all text-right"
+            >
+              <p className="text-sm font-semibold text-accent mb-2">Next →</p>
+              <p className="font-heading text-lg font-bold text-stone-900 group-hover:text-accent transition-colors line-clamp-2">
+                {next.title}
+              </p>
+            </Link>
+          ) : <div />}
+        </div>
+
+        {/* Comments */}
+        <div className="mt-14">
+          <CommentSection blogId={blog._id} />
+        </div>
       </main>
       {!!related.length && (
-        <section className="mx-auto max-w-7xl px-5 pb-14">
-          <h2 className="font-heading text-3xl font-bold">Related Blogs</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+        <section className="mx-auto max-w-7xl px-5 py-16 border-t border-stone-200">
+          <div className="mb-12">
+            <h2 className="font-heading text-4xl font-bold text-stone-900 mb-2">Related Blogs</h2>
+            <p className="text-stone-600">Explore more articles from the same category</p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
             {related.map((item) => <BlogCard key={item._id} blog={item} />)}
           </div>
         </section>
