@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   
+  const wwwUrl = baseUrl.replace(/^(https?:\/\/)(?!www\.)/, "$1www.");
   const robots = `# Qalam Blog Studio Robots.txt
 User-agent: *
 Allow: /
@@ -14,6 +15,7 @@ Disallow: /*?*filter=
 
 # Sitemaps
 Sitemap: ${baseUrl}/sitemap.xml
+Sitemap: ${wwwUrl}/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
