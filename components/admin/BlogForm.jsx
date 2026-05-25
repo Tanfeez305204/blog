@@ -48,6 +48,19 @@ export default function BlogForm({ initial }) {
     setPost((current) => ({ ...current, [key]: value }));
   }
 
+  function addTags() {
+    const newTags = tag
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .filter((value, index, all) => all.indexOf(value) === index && !(post.tags || []).includes(value));
+
+    if (newTags.length) {
+      update("tags", [...(post.tags || []), ...newTags]);
+    }
+    setTag("");
+  }
+
   async function save(status = post.status) {
     setSaving(true);
     const payload = { ...post, status, slug: post.slug || slugify(post.title) };
@@ -111,11 +124,19 @@ export default function BlogForm({ initial }) {
           <textarea maxLength={160} value={post.excerpt || ""} onChange={(e) => update("excerpt", e.target.value)} placeholder="Excerpt" className="mt-3 h-24 w-full rounded border border-stone-300 p-3" />
           <input value={post.author || ""} onChange={(e) => update("author", e.target.value)} placeholder="Author" className="mt-3 w-full rounded border border-stone-300 p-3" />
           <div className="mt-3 flex gap-2">
-            <input value={tag} onChange={(e) => setTag(e.target.value)} placeholder="Add tag" className="min-w-0 flex-1 rounded border border-stone-300 p-3" />
-            <button type="button" className="rounded bg-ink px-4 text-white" onClick={() => {
-              if (tag.trim()) update("tags", [...(post.tags || []), tag.trim()]);
-              setTag("");
-            }}>Add</button>
+            <input
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addTags();
+                }
+              }}
+              placeholder="Add tags separated by commas"
+              className="min-w-0 flex-1 rounded border border-stone-300 p-3"
+            />
+            <button type="button" className="rounded bg-ink px-4 text-white" onClick={addTags}>Add</button>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {(post.tags || []).map((item) => (

@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function CommentSection({ blogId }) {
   const [comments, setComments] = useState([]);
   const [form, setForm] = useState({ name: "", message: "" });
 
-  async function load() {
+  const load = useCallback(async () => {
     const res = await fetch(`/api/comments?blog=${blogId}`);
     if (res.ok) setComments(await res.json());
-  }
+  }, [blogId]);
 
-  useEffect(() => { load(); }, [blogId]);
+  useEffect(() => { load(); }, [load]);
 
   async function submit(e) {
     e.preventDefault();

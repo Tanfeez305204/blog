@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import toast from "react-hot-toast";
 import { UploadCloud } from "lucide-react";
 
@@ -36,7 +37,9 @@ export default function ImageUpload({ value, onChange }) {
     >
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => upload(e.target.files[0])} />
       {value?.url ? (
-        <img src={value.url} alt="" className="mx-auto h-36 w-full rounded object-cover" />
+        <div className="relative mx-auto h-36 w-full overflow-hidden rounded">
+          <Image src={value.url} alt="" fill sizes="(min-width: 768px) 340px, 100vw" className="object-cover" />
+        </div>
       ) : (
         <div className="grid place-items-center gap-2 py-8 text-stone-500">
           <UploadCloud />

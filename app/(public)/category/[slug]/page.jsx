@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import Navbar from "@/components/public/Navbar";
 import BlogCard from "@/components/public/BlogCard";
 import Footer from "@/components/public/Footer";
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params }) {
   const category = await getCategory(params.slug);
-  if (!category) notFound();
+  if (!category) redirect("/");
 
   let categories = [];
   let blogs = [];

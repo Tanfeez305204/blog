@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 import Navbar from "@/components/public/Navbar";
 import Footer from "@/components/public/Footer";
 import BlogCard from "@/components/public/BlogCard";
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogDetail({ params }) {
   const blog = await getBlog(params.slug, params.language);
-  if (!blog) notFound();
+  if (!blog) redirect("/");
 
   let categories = [];
   let related = [];
@@ -141,11 +142,16 @@ export default async function BlogDetail({ params }) {
 
         {/* Featured Image */}
         {blog.featuredImage?.url && (
-          <img 
-            src={blog.featuredImage.url} 
-            alt={blog.title} 
-            className="mt-10 w-full max-h-[600px] object-cover rounded-2xl shadow-lg" 
-          />
+          <div className="relative mt-10 h-[360px] w-full overflow-hidden rounded-2xl shadow-lg sm:h-[460px] lg:h-[560px]">
+            <Image
+              src={blog.featuredImage.url}
+              alt={blog.title}
+              fill
+              priority
+              sizes="(min-width: 1024px) 896px, 100vw"
+              className="object-cover"
+            />
+          </div>
         )}
 
         {/* Content */}

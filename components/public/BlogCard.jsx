@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function BlogCard({ blog }) {
   const language = blog.language || "english";
@@ -6,11 +7,15 @@ export default function BlogCard({ blog }) {
     <article className="group overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-accent/30">
       <Link href={`/blog/${language}/${blog.slug}`} className="block overflow-hidden">
         {blog.featuredImage?.url ? (
-          <img 
-            src={blog.featuredImage.url} 
-            alt={blog.title} 
-            className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105" 
-          />
+          <div className="relative h-48 w-full transition-transform duration-300 group-hover:scale-105">
+            <Image
+              src={blog.featuredImage.url}
+              alt={blog.title}
+              fill
+              sizes="(min-width: 768px) 33vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         ) : (
           <div className="grid h-48 place-items-center bg-gradient-to-br from-orange-50 to-amber-50 text-6xl transition-transform duration-300 group-hover:scale-105">
             {blog.category?.emoji || "🖋️"}

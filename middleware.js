@@ -6,6 +6,18 @@ export default withAuth(
     const token = req.nextauth.token;
     const pathname = req.nextUrl.pathname;
 
+    // Skip middleware for next/static, API and common static asset requests
+    if (
+      pathname.startsWith("/_next") ||
+      pathname.startsWith("/api") ||
+      pathname.startsWith("/static") ||
+      pathname.startsWith("/favicon.ico") ||
+      pathname.startsWith("/robots.txt") ||
+      pathname.includes(".") // files with extensions (fonts, images, css, etc)
+    ) {
+      return NextResponse.next();
+    }
+
     // Admin routes - require admin role
     if (pathname.startsWith("/admin") && !pathname.includes("/login")) {
       if (token?.role !== "admin") {

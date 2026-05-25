@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroBanner({ post }) {
   if (!post) {
@@ -27,7 +28,16 @@ export default function HeroBanner({ post }) {
         </div>
         <Link href={`/blog/${language}/${post.slug}`} className="block overflow-hidden rounded-3xl bg-white/5">
           {post.featuredImage?.url ? (
-            <img src={post.featuredImage.url} alt={post.title} className="h-[260px] sm:h-[320px] md:h-[380px] w-full object-cover" />
+            <div className="relative h-[260px] w-full sm:h-[320px] md:h-[380px]">
+              <Image
+                src={post.featuredImage.url}
+                alt={post.title}
+                fill
+                priority
+                sizes="(min-width: 768px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           ) : (
             <div className="grid h-[260px] sm:h-[320px] md:h-[380px] place-items-center text-7xl">✍️</div>
           )}

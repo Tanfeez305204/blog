@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TopBar from "@/components/admin/TopBar";
 import BlogTable from "@/components/admin/BlogTable";
 
@@ -10,19 +10,22 @@ export default function BlogsPage() {
   const [filters, setFilters] = useState({ search: "", status: "all", category: "all", page: 1 });
   const [pages, setPages] = useState(1);
 
-  async function load() {
+  const loadBlogs = useCallback(async () => {
     const query = new URLSearchParams({ ...filters, limit: 10 });
-    const [blogRes, catRes] = await Promise.all([fetch(`/api/blogs?${query}`), fetch("/api/categories")]);
+    const blogRes = await fetch(`/api/blogs?${query}`);
     const data = await blogRes.json();
     setBlogs(data.blogs || []);
     setPages(data.pages || 1);
-    setCategories(await catRes.json());
-  }
+  }, [filters]);
 
   useEffect(() => {
-    const timer = setTimeout(load, 250);
+    fetch("/api/categories").then((res) => res.json()).then(setCategories);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(loadBlogs, 250);
     return () => clearTimeout(timer);
-  }, [filters]);
+  }, [loadBlogs]);
 
   return (
     <>
@@ -41,7 +44,7 @@ export default function BlogsPage() {
             {categories.map((cat) => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
           </select>
         </div>
-        <BlogTable blogs={blogs} onDeleted={load} />
+        <BlogTable blogs={blogs} onDeleted={loadBlogs} />
         <div className="flex items-center justify-end gap-3">
           <button disabled={filters.page <= 1} onClick={() => setFilters({ ...filters, page: filters.page - 1 })} className="rounded border px-4 py-2 disabled:opacity-40">Prev</button>
           <span>Page {filters.page} of {pages}</span>

@@ -13,7 +13,7 @@ async function canWrite() {
 
 export async function GET(_request, { params }) {
   const blog = await getBlogByIdOrSlug(params.id);
-  if (!blog) return NextResponse.json({ message: "Not found" }, { status: 404 });
+  if (!blog) return NextResponse.json(null);
   return NextResponse.json(blog);
 }
 
