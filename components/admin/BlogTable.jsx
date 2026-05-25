@@ -51,7 +51,7 @@ export default function BlogTable({ blogs = [], onDeleted }) {
               </td>
               <td className="p-4">
                 <div className="flex gap-2">
-                  <Link className="rounded border p-2 hover:bg-stone-50" href={`/blog/${blog.slug}`} aria-label="Preview"><Eye size={16} /></Link>
+                  <Link className="rounded border p-2 hover:bg-stone-50" href={`/blog/${blog.language || "english"}/${blog.slug}`} aria-label="Preview"><Eye size={16} /></Link>
                   <Link className="rounded border p-2 hover:bg-stone-50" href={`/admin/blogs/edit/${blog._id}`} aria-label="Edit"><Edit size={16} /></Link>
                   <button className="rounded border p-2 text-red-600 hover:bg-red-50" onClick={() => remove(blog._id)} aria-label="Delete"><Trash2 size={16} /></button>
                 </div>

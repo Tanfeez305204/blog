@@ -56,12 +56,25 @@ create table public.comments (
   updated_at timestamptz not null default now()
 );
 
+create table public.users (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  password text not null,
+  name text not null,
+  role text not null default 'user' check (role in ('admin', 'user')),
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create index blogs_status_idx on public.blogs(status);
 create index blogs_slug_idx on public.blogs(slug);
 create index blogs_category_id_idx on public.blogs(category_id);
 create index blogs_created_at_idx on public.blogs(created_at desc);
 create index blogs_tags_idx on public.blogs using gin(tags);
 create index comments_blog_id_idx on public.comments(blog_id);
+create index users_email_idx on public.users(email);
+create index users_role_idx on public.users(role);
 ```
 
 ## Updated At Triggers
@@ -88,6 +101,21 @@ for each row execute function public.set_updated_at();
 create trigger comments_set_updated_at
 before update on public.comments
 for each row execute function public.set_updated_at();
+
+create trigger users_set_updated_at
+before update on public.users
+for each row execute function public.set_updated_at();
+```
+
+## Optional Starter Categories
+
+```sql
+## Starter Users
+
+```sql
+insert into public.users (email, password, name, role) values
+  ('ta2nfeez@gmail.com', 'Tanfeez@901', 'Admin User', 'admin'),
+  ('user@example.com', 'User@123', 'Main User', 'user');
 ```
 
 ## Optional Starter Categories

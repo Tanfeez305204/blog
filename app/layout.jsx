@@ -14,7 +14,11 @@ const dmSans = DM_Sans({
 
 export const metadata = {
   title: "Qalam Blog Studio",
-  description: "A professional daily blog platform."
+  description: "A professional daily blog platform.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  alternates: {
+    canonical: "/"
+  }
 };
 
 export default function RootLayout({ children }) {
