@@ -6,14 +6,15 @@ import BlogCard from "@/components/public/BlogCard";
 import ViewTracker from "@/components/public/ViewTracker";
 import ShareButtons from "@/components/public/ShareButtons";
 import CommentSection from "@/components/public/CommentSection";
+import LanguageSwitcher from "@/components/public/LanguageSwitcher";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { getBlogByIdOrSlug, listCategories, toBlog } from "@/lib/blog-data";
 
 export const revalidate = 60;
 
-async function getBlog(slug) {
+async function getBlog(slug, language) {
   try {
-    return await getBlogByIdOrSlug(slug, true);
+    return await getBlogByIdOrSlug(slug, true, language);
   } catch {
     return null;
   }
@@ -22,18 +23,18 @@ async function getBlog(slug) {
 export async function generateStaticParams() {
   try {
     const supabase = getSupabaseAdmin();
-    const { data } = await supabase.from("blogs").select("slug").eq("status", "published");
-    return (data || []).map((blog) => ({ slug: blog.slug }));
+    const { data } = await supabase.from("blogs").select("slug, language").eq("status", "published");
+    return (data || []).map((blog) => ({ slug: blog.slug, language: blog.language || "english" }));
   } catch {
     return [];
   }
 }
 
 export async function generateMetadata({ params }) {
-  const blog = await getBlog(params.slug);
+  const blog = await getBlog(params.slug, params.language);
   if (!blog) return {};
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const url = `${siteUrl}/blog/${blog.slug}`;
+  const url = `${siteUrl}/blog/${params.language}/${blog.slug}`;
   return {
     title: blog.seo?.metaTitle || blog.title,
     description: blog.seo?.metaDescription || blog.excerpt,
@@ -49,7 +50,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogDetail({ params }) {
-  const blog = await getBlog(params.slug);
+  const blog = await getBlog(params.slug, params.language);
   if (!blog) notFound();
 
   let categories = [];
@@ -63,10 +64,16 @@ export default async function BlogDetail({ params }) {
         .from("blogs")
         .select("*, categories(*)")
         .eq("status", "published")
+        .eq("language", params.language)
         .eq("category_id", blog.category?._id)
         .neq("id", blog._id)
         .limit(3),
-      supabase.from("blogs").select("title, slug, created_at").eq("status", "published").order("created_at")
+      supabase
+        .from("blogs")
+        .select("title, slug, created_at, language")
+        .eq("status", "published")
+        .eq("language", params.language)
+        .order("created_at")
     ]);
     categories = categoryList;
     related = (relatedRes.data || []).map(toBlog);
@@ -86,7 +93,7 @@ export default async function BlogDetail({ params }) {
     author: { "@type": "Person", name: blog.author },
     datePublished: blog.createdAt,
     dateModified: blog.updatedAt,
-    mainEntityOfPage: `${siteUrl}/blog/${blog.slug}`
+    mainEntityOfPage: `${siteUrl}/blog/${params.language}/${blog.slug}`
   };
 
   return (
@@ -149,6 +156,9 @@ export default async function BlogDetail({ params }) {
         {/* Content */}
         <div className="prose-blog mt-12 max-w-none text-lg leading-8 text-stone-700" dangerouslySetInnerHTML={{ __html: blog.content }} />
 
+        {/* Language Switcher */}
+        <LanguageSwitcher slug={params.slug} currentLanguage={params.language} />
+
         {/* Share Section */}
         <div className="mt-14 py-8 border-y border-stone-200">
           <p className="text-sm font-semibold text-stone-600 mb-4">Share this article</p>
@@ -159,7 +169,7 @@ export default async function BlogDetail({ params }) {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {prev ? (
             <Link 
-              href={`/blog/${prev.slug}`}
+              href={`/blog/${params.language}/${prev.slug}`}
               className="group block p-6 rounded-xl border border-stone-200 hover:border-accent/30 hover:shadow-lg transition-all"
             >
               <p className="text-sm font-semibold text-accent mb-2">← Previous</p>
@@ -170,7 +180,7 @@ export default async function BlogDetail({ params }) {
           ) : <div />}
           {next ? (
             <Link 
-              href={`/blog/${next.slug}`}
+              href={`/blog/${params.language}/${next.slug}`}
               className="group block p-6 rounded-xl border border-stone-200 hover:border-accent/30 hover:shadow-lg transition-all text-right"
             >
               <p className="text-sm font-semibold text-accent mb-2">Next →</p>

@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 export default function BlogCard({ blog }) {
+  const language = blog.language || "english";
   return (
     <article className="group overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-accent/30">
-      <Link href={`/blog/${blog.slug}`} className="block overflow-hidden">
+      <Link href={`/blog/${language}/${blog.slug}`} className="block overflow-hidden">
         {blog.featuredImage?.url ? (
           <img 
             src={blog.featuredImage.url} 
@@ -20,7 +21,7 @@ export default function BlogCard({ blog }) {
         <Link href={`/category/${blog.category?.slug || "uncategorized"}`} className="inline-block w-fit text-xs font-bold uppercase tracking-widest text-accent transition-colors hover:text-accent/80">
           {blog.category?.name || "Uncategorized"}
         </Link>
-        <Link href={`/blog/${blog.slug}`}>
+        <Link href={`/blog/${language}/${blog.slug}`}>
           <h2 className="mt-3 font-heading text-xl font-bold leading-tight text-stone-900 transition-colors group-hover:text-accent line-clamp-2">
             {blog.title}
           </h2>
