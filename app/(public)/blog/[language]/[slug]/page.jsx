@@ -101,7 +101,7 @@ export default async function BlogDetail({ params }) {
       <Navbar categories={categories} />
       <ViewTracker id={blog._id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <main className="mx-auto max-w-4xl px-5 py-16">
+      <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="mb-10">
           <div className="inline-block mb-4">
@@ -120,14 +120,9 @@ export default async function BlogDetail({ params }) {
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
               background-clip: text;
-              transition: all 0.3s ease;
-            }
-            .blog-title:hover {
-              animation: gradientShift 3s ease infinite;
-              letter-spacing: 0.05em;
             }
           `}</style>
-          <h1 className="blog-title font-heading text-5xl md:text-6xl font-bold leading-tight mb-6 cursor-default hover:drop-shadow-lg transition-all">
+          <h1 className="blog-title font-heading text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 cursor-default">
             {blog.title}
           </h1>
           <div className="flex flex-wrap items-center gap-6 text-stone-600 border-b border-stone-100 pb-6">

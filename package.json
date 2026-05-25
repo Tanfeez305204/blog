@@ -6,8 +6,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "build": "next build",
-    "start": "next start",
-    "postbuild": "next-sitemap"
+    "start": "next start"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

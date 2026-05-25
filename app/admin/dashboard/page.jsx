@@ -8,18 +8,21 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   let totalBlogs = 0;
   let subscribers = 0;
+  let uniqueVisitors = 0;
   let recent = [];
   let views = { total: 0, avg: 0 };
 
   try {
     const supabase = getSupabaseAdmin();
-    const [blogsRes, subscribersRes] = await Promise.all([
+    const [blogsRes, subscribersRes, visitorsRes] = await Promise.all([
       supabase.from("blogs").select("*, categories(*)").order("created_at", { ascending: false }),
-      supabase.from("subscribers").select("id", { count: "exact", head: true }).eq("is_active", true)
+      supabase.from("subscribers").select("id", { count: "exact", head: true }).eq("is_active", true),
+      supabase.from("visitors").select("visitor_ip", { count: "exact", head: true })
     ]);
     const blogs = blogsRes.data || [];
     totalBlogs = blogs.length;
     subscribers = subscribersRes.count || 0;
+    uniqueVisitors = visitorsRes.count || 0;
     recent = blogs.slice(0, 4).map(toBlog);
     views.total = blogs.reduce((sum, blog) => sum + (blog.views || 0), 0);
     views.avg = blogs.length ? blogs.reduce((sum, blog) => sum + (blog.read_time || 0), 0) / blogs.length : 0;
@@ -28,8 +31,8 @@ export default async function DashboardPage() {
   const stats = [
     ["Total Blogs", totalBlogs, "↑ active library"],
     ["Monthly Views", views.total || 0, "↑ traffic tracked"],
-    ["Subscribers", subscribers, "↑ newsletter audience"],
-    ["Avg Read Time", `${Math.round(views.avg || 0)}m`, "story depth"]
+    ["Unique Visitors", uniqueVisitors, "↑ audience reach"],
+    ["Subscribers", subscribers, "↑ newsletter audience"]
   ];
 
   return (

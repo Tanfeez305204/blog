@@ -7,14 +7,16 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const supabase = getSupabaseAdmin();
-    const [blogsRes, subscribersRes, categoriesRes] = await Promise.all([
+    const [blogsRes, subscribersRes, categoriesRes, visitorsRes] = await Promise.all([
       supabase.from("blogs").select("*, categories(*)"),
       supabase.from("subscribers").select("id", { count: "exact", head: true }).eq("is_active", true),
-      supabase.from("categories").select("*")
+      supabase.from("categories").select("*"),
+      supabase.from("visitors").select("visitor_ip", { count: "exact", head: true })
     ]);
 
     const blogs = blogsRes.data || [];
     const totalViews = blogs.reduce((sum, blog) => sum + (blog.views || 0), 0);
+    const uniqueVisitors = visitorsRes.count || 0;
     const avgReadTime = blogs.length
       ? Math.round(blogs.reduce((sum, blog) => sum + (blog.read_time || 0), 0) / blogs.length)
       : 0;
@@ -32,6 +34,7 @@ export async function GET() {
       subscribers: subscribersRes.count || 0,
       totalViews,
       monthlyViews: totalViews,
+      uniqueVisitors,
       avgReadTime,
       bounceRate: "38%",
       avgSessionTime: "3m 42s",
@@ -44,6 +47,7 @@ export async function GET() {
       subscribers: 0,
       totalViews: 0,
       monthlyViews: 0,
+      uniqueVisitors: 0,
       avgReadTime: 0,
       bounceRate: "38%",
       avgSessionTime: "3m 42s",
