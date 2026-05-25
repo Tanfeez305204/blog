@@ -37,14 +37,14 @@ export default async function TermsConditions() {
               <li>Using the materials for any commercial purpose or for any public display</li>
               <li>Attempting to decompile or reverse engineer any software</li>
               <li>Removing any copyright or other proprietary notations from the materials</li>
-              <li>Transferring the materials to another person or "mirroring" the materials on any other server</li>
+              <li>Transferring the materials to another person or &quot;mirroring&quot; the materials on any other server</li>
             </ul>
           </section>
 
           <section>
             <h2 className="font-heading text-2xl font-bold text-stone-900 mb-4">3. Disclaimer</h2>
             <p>
-              The materials on Qalam Blog Studio are provided on an 'as is' basis. Qalam Blog Studio makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+              The materials on Qalam Blog Studio are provided on an &apos;as is&apos; basis. Qalam Blog Studio makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
             </p>
           </section>
 
@@ -65,7 +65,7 @@ export default async function TermsConditions() {
           <section>
             <h2 className="font-heading text-2xl font-bold text-stone-900 mb-4">6. Links</h2>
             <p>
-              Qalam Blog Studio has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Qalam Blog Studio of the site. Use of any such linked website is at the user's own risk.
+              Qalam Blog Studio has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Qalam Blog Studio of the site. Use of any such linked website is at the user&apos;s own risk.
             </p>
           </section>
 

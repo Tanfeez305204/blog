@@ -23,7 +23,7 @@ export default async function PrivacyPolicy() {
           <section>
             <h2 className="font-heading text-2xl font-bold text-stone-900 mb-4">1. Introduction</h2>
             <p>
-              Welcome to Qalam Blog Studio ("we," "us," "our," or "Company"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
+              Welcome to Qalam Blog Studio (&quot;we,&quot; &quot;us,&quot; &quot;our,&quot; or &quot;Company&quot;). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
             </p>
           </section>
 
