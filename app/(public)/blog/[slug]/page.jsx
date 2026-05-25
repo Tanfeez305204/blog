@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
       title: blog.title,
       description: blog.excerpt,
       url,
-      images: [blog.seo?.ogImage || blog.featuredImage?.url || "/og.png"]
+      images: [blog.seo?.ogImage || blog.featuredImage?.url || "/og.svg"]
     }
   };
 }

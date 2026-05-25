@@ -14,7 +14,7 @@ export async function generateMetadata() {
     title: "Qalam Blog Studio | Daily Ideas and Guides",
     description: "Daily essays, guides, and ideas from Qalam Blog Studio.",
     alternates: { canonical: siteUrl },
-    openGraph: { title: "Qalam Blog Studio", url: siteUrl, images: ["/og.png"] }
+    openGraph: { title: "Qalam Blog Studio", url: siteUrl, images: ["/og.svg"] }
   };
 }
 
