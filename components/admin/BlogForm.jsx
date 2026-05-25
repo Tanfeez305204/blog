@@ -11,6 +11,7 @@ import { slugify } from "@/lib/utils";
 const empty = {
   title: "",
   slug: "",
+  language: "english",
   content: "",
   excerpt: "",
   featuredImage: { url: "", publicId: "" },
@@ -101,6 +102,11 @@ export default function BlogForm({ initial }) {
           <select value={post.category?._id || post.category || ""} onChange={(e) => update("category", e.target.value)} className="mt-4 w-full rounded border border-stone-300 p-3">
             <option value="">Select category</option>
             {categories.map((cat) => <option key={cat._id} value={cat._id}>{cat.emoji} {cat.name}</option>)}
+          </select>
+          <select value={post.language || "english"} onChange={(e) => update("language", e.target.value)} className="mt-3 w-full rounded border border-stone-300 p-3">
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+            <option value="urdu">Urdu</option>
           </select>
           <textarea maxLength={160} value={post.excerpt || ""} onChange={(e) => update("excerpt", e.target.value)} placeholder="Excerpt" className="mt-3 h-24 w-full rounded border border-stone-300 p-3" />
           <input value={post.author || ""} onChange={(e) => update("author", e.target.value)} placeholder="Author" className="mt-3 w-full rounded border border-stone-300 p-3" />

@@ -23,6 +23,7 @@ export async function GET(request) {
       status: searchParams.get("status"),
       category: searchParams.get("category"),
       search: searchParams.get("search"),
+      language: searchParams.get("language"),
       publicOnly: searchParams.get("public") === "true"
     });
 
