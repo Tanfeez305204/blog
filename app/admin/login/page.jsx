@@ -14,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
     const res = await signIn("credentials", { email, password, redirect: false });
     if (res?.ok) router.push("/admin/dashboard");
-    else toast.error("Invalid admin credentials");
+    else toast.error(res?.error || "Invalid admin credentials");
   }
 
   return (
