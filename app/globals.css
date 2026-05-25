@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #1a1209;
+  background: #faf6ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3 {
+  font-family: var(--font-playfair), serif;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-blog p,
+.prose-blog li {
+  line-height: 1.85;
+  margin-bottom: 1em;
+}
+
+.prose-blog img {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.tiptap {
+  min-height: 360px;
+  outline: none;
+}
