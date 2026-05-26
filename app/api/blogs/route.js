@@ -1,8 +1,10 @@
+
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { fromBlogPayload, listBlogs, toBlog, updateCategoryPostCount } from "@/lib/blog-data";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { sendNotification } from "@/lib/sendNotification";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +35,6 @@ export async function GET(request) {
   }
 }
 
-export async function POST(request) {
   if (!(await requireAdmin())) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
@@ -44,5 +45,19 @@ export async function POST(request) {
 
   if (error) return NextResponse.json({ message: error.message }, { status: 400 });
   await updateCategoryPostCount(data.category_id);
+
+  // Send OneSignal notification to all subscribers
+  try {
+    const blogUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/blog/${data.language || "en"}/${data.slug}`;
+    await sendNotification(
+      `New Blog Published: ${data.title}`,
+      data.summary || "Check out our latest blog post!",
+      blogUrl
+    );
+  } catch (e) {
+    // Log notification error but don't block blog creation
+    console.error("OneSignal notification error:", e);
+  }
+
   return NextResponse.json(toBlog(data), { status: 201 });
 }
