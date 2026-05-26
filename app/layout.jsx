@@ -34,6 +34,12 @@ export default function RootLayout({ children }) {
               OneSignalDeferred.push(async function(OneSignal) {
                 await OneSignal.init({
                   appId: "ad5f7a13-d281-4104-be4a-2d14a6370d93",
+                  promptOptions: {
+                    slidedown: {
+                      enabled: true,
+                      position: "top"
+                    }
+                  }
                 });
                 OneSignal.on('subscriptionChange', function(isSubscribed) {
                   if (isSubscribed) {
