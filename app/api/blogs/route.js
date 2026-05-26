@@ -35,6 +35,8 @@ export async function GET(request) {
   }
 }
 
+
+export async function POST(request) {
   if (!(await requireAdmin())) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
