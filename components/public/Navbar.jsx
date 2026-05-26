@@ -7,7 +7,6 @@ export default function Navbar({ categories = [] }) {
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-5 sm:py-5">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="font-heading text-2xl sm:text-3xl font-bold whitespace-nowrap">Qalam</Link>
-          
           <nav className="flex items-center gap-2 sm:gap-6 overflow-x-auto flex-1 px-2 -mx-2">
             {categories.slice(0, 8).map((cat) => (
               <Link 
@@ -18,11 +17,13 @@ export default function Navbar({ categories = [] }) {
                 {cat.name}
               </Link>
             ))}
-            <Link href="/about" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">About</Link>
-            <Link href="/contact" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">Contact</Link>
-            <Link href="/contact" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">FAQ</Link>
+            {/* Spacer to push the next group to the right */}
+            <span className="ml-auto flex flex-col items-start gap-1 sm:gap-2">
+              <Link href="/about" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">About</Link>
+              <Link href="/contact" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">Contact</Link>
+              <Link href="/faq" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">FAQ</Link>
+            </span>
           </nav>
-          
           <Link href="/search" aria-label="Search" className="rounded-full border border-stone-300 p-2.5 sm:p-3 flex-shrink-0">
             <Search size={18} />
           </Link>

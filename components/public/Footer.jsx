@@ -11,17 +11,18 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="font-semibold text-stone-900 mb-4">Site</h3>
-            <ul className="space-y-2 text-sm text-stone-600">
-              <li><Link href="/" className="hover:text-accent transition-colors">Home</Link></li>
-              <li><Link href="/search" className="hover:text-accent transition-colors">Search</Link></li>
-              <li><Link href="/admin/login" className="hover:text-accent transition-colors">Admin</Link></li>
-
-            </ul>
-            <ul>
-              <li><Link href="/about" className="hover:text-accent transition-colors">About</Link></li>
-              <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
-              <li><Link href="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
-            </ul>
+            <div className="grid grid-cols-2 gap-x-6">
+              <ul className="space-y-2 text-sm text-stone-600">
+                <li><Link href="/" className="hover:text-accent transition-colors">Home</Link></li>
+                <li><Link href="/search" className="hover:text-accent transition-colors">Search</Link></li>
+                <li><Link href="/admin/login" className="hover:text-accent transition-colors">Admin</Link></li>
+              </ul>
+              <ul className="space-y-2 text-sm text-stone-600">
+                <li><Link href="/about" className="hover:text-accent transition-colors">About</Link></li>
+                <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
+                <li><Link href="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
+              </ul>
+            </div>
           </div>
           <div>
             <h3 className="font-semibold text-stone-900 mb-4">Legal</h3>
