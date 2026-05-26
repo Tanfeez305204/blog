@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "https://qalam.website/",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }
