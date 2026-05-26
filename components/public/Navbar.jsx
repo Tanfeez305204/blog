@@ -18,6 +18,9 @@ export default function Navbar({ categories = [] }) {
                 {cat.name}
               </Link>
             ))}
+            <Link href="/about" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">About</Link>
+            <Link href="/contact" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">Contact</Link>
+            <Link href="/contact" className="text-xs sm:text-sm font-semibold text-stone-600 hover:text-accent transition-colors whitespace-nowrap">FAQ</Link>
           </nav>
           
           <Link href="/search" aria-label="Search" className="rounded-full border border-stone-300 p-2.5 sm:p-3 flex-shrink-0">

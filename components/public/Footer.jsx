@@ -15,6 +15,12 @@ export default function Footer() {
               <li><Link href="/" className="hover:text-accent transition-colors">Home</Link></li>
               <li><Link href="/search" className="hover:text-accent transition-colors">Search</Link></li>
               <li><Link href="/admin/login" className="hover:text-accent transition-colors">Admin</Link></li>
+
+            </ul>
+            <ul>
+              <li><Link href="/about" className="hover:text-accent transition-colors">About</Link></li>
+              <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
+              <li><Link href="/faq" className="hover:text-accent transition-colors">FAQ</Link></li>
             </ul>
           </div>
           <div>
@@ -33,6 +39,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
+        
         <div className="border-t border-stone-200 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p className="text-sm text-stone-600">&copy; {new Date().getFullYear()} Qalam Blog Studio. All rights reserved.</p>
           <div className="flex gap-4 text-sm text-stone-600">
