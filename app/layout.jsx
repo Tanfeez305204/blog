@@ -24,6 +24,34 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* OneSignal SDK and initialization */}
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "ad5f7a13-d281-4104-be4a-2d14a6370d93",
+                });
+                OneSignal.on('subscriptionChange', function(isSubscribed) {
+                  if (isSubscribed) {
+                    OneSignal.getUserId().then(function(userId) {
+                      // Send userId to your backend to save
+                      fetch('/api/subscribers', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId }),
+                      });
+                    });
+                  }
+                });
+              });
+            `
+          }}
+        />
+      </head>
       <body className={`${playfair.variable} ${dmSans.variable} font-sans`}>
         {children}
         <Toaster position="top-right" />

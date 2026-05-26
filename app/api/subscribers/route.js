@@ -4,15 +4,24 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 export const dynamic = "force-dynamic";
 
 export async function POST(request) {
-  const { email } = await request.json();
-  if (!email) return NextResponse.json({ message: "Email is required" }, { status: 400 });
+  const { email, userId } = await request.json();
+  if (!email && !userId) {
+    return NextResponse.json({ message: "Email or userId is required" }, { status: 400 });
+  }
 
   const supabase = getSupabaseAdmin();
+  let upsertData = { is_active: true, subscribed_at: new Date().toISOString() };
+  if (email) upsertData.email = email;
+  if (userId) upsertData.onesignal_id = userId;
+
+  // Use email or userId as unique key for upsert
+  const onConflict = email ? "email" : "onesignal_id";
+
   const { data, error } = await supabase
     .from("subscribers")
     .upsert(
-      { email, is_active: true, subscribed_at: new Date().toISOString() },
-      { onConflict: "email" }
+      upsertData,
+      { onConflict }
     )
     .select("*")
     .single();
