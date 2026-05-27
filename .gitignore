@@ -63,3 +63,49 @@ public/robots.txt
 Thumbs.db
 .vercel
 .env*
+
+# IDE/editor settings
+.vscode/
+.idea/
+.history/
+.swp
+.swo
+.swn
+.code-workspace
+
+# Logs (extra)
+logs/
+*.log
+
+# Coverage/test output
+coverage/
+coverage-final.json
+*.lcov
+junit.xml
+test-results.xml
+test-output/
+
+# Miscellaneous
+*.tgz
+*.zip
+*.tar
+*.gz
+*.7z
+*.tmp
+*.old
+*.orig
+*.rej
+
+# Mac system files
+__MACOSX/
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# npm/yarn/pnpm lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Storybook
+storybook-static/
