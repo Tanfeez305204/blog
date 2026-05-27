@@ -1,29 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  
-  const wwwUrl = baseUrl.replace(/^(https?:\/\/)(?!www\.)/, "$1www.");
-  const robots = `# Qalam Blog Studio Robots.txt
-User-agent: *
-Allow: /
-Disallow: /admin/
-Disallow: /api/
-Disallow: /*.json$
-Disallow: /*?*sort=
-Disallow: /*?*filter=
-
-# Sitemaps
-Sitemap: ${baseUrl}/sitemap.xml
-Sitemap: ${wwwUrl}/sitemap.xml
-
-# Crawl delay
-Crawl-delay: 1
-
-# Host
-Host: ${baseUrl}
-`;
-
+  const robots = `User-agent: *\nAllow: /\n\nDisallow: /admin/\nDisallow: /api/\nDisallow: /*.json$\nDisallow: /*?*sort=\nDisallow: /*?*filter=\n\nSitemap: https://qalam.website/sitemap.xml\n\nCrawl-delay: 1`;
   return new NextResponse(robots, {
     headers: {
       "Content-Type": "text/plain",
