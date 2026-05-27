@@ -25,6 +25,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* AdSense Verification Script */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7052202351109392"
+          crossOrigin="anonymous"
+        ></script>
         {/* OneSignal SDK and initialization */}
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
         <script
